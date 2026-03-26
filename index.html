@@ -23,6 +23,7 @@ body {
   align-items: center;
   height: 100vh;
 }
+
 .container {
   width: 90%;
   max-width: 400px;
@@ -32,6 +33,7 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   text-align: center;
 }
+
 .progress {
   height: 8px;
   background: #eee;
@@ -39,16 +41,19 @@ body {
   margin-bottom: 20px;
   overflow: hidden;
 }
+
 .progress-bar {
   height: 100%;
   width: 0%;
   background: #ff5c8a;
   transition: 0.3s;
 }
+
 h1 {
   font-size: 20px;
   margin-bottom: 30px;
 }
+
 button {
   width: 100%;
   padding: 15px;
@@ -58,21 +63,21 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
+
 .yes {
   background: #ff5c8a;
   color: white;
 }
+
 .no {
   background: #ddd;
-  position: absolute;
-  left: 50%;
-  top: 60%;
-  transform: translate(-50%, -50%);
 }
+
 .share {
   background: #fee500;
   margin-top: 20px;
 }
+
 #result {
   font-size: 18px;
   margin-top: 20px;
@@ -89,40 +94,46 @@ button {
 
 <div class="container">
 
-<div class="progress">
-  <div class="progress-bar" id="bar"></div>
-</div>
+  <div class="progress">
+    <div class="progress-bar" id="bar"></div>
+  </div>
 
-<h1 id="question">금요일은 꼬빵데이~ 😏</h1>
+  <h1 id="question">금요일은 꼬빵데이~ 😏</h1>
 
-<button class="yes" onclick="nextStep()">좋아 💖</button>
-<button class="no" id="noBtn">미쳤어?</button>
+  <button class="yes" onclick="nextStep()">좋아 💖</button>
+  <button class="no" id="noBtn">미쳤어?</button>
 
-<div id="result"></div>
+  <div id="result"></div>
 
-<button class="share" onclick="shareKakao()">카톡으로 공유하기 💛</button>
+  <button class="share" onclick="shareKakao()">카톡으로 공유하기 💛</button>
 
 </div>
 
 <script>
 const bgm = document.getElementById("bgm");
 
-// 클릭 시 음악 재생
+// 📱 모바일 포함 클릭 시 음악 재생
 document.body.addEventListener("click", () => {
-  bgm.play();
+  bgm.play().catch(() => {});
 }, { once: true });
 
 let step = 0;
 const noBtn = document.getElementById("noBtn");
 const bar = document.getElementById("bar");
+const question = document.getElementById("question");
 
+// 😈 도망 이벤트 (PC + 모바일)
 noBtn.addEventListener("mouseover", move);
+noBtn.addEventListener("touchstart", move);
 noBtn.addEventListener("click", (e) => {
   e.preventDefault();
   move();
 });
 
 function move() {
+  noBtn.style.position = "absolute";
+  noBtn.style.transition = "0.2s";
+
   const x = Math.random() * (window.innerWidth - 120);
   const y = Math.random() * (window.innerHeight - 60);
 
@@ -130,32 +141,34 @@ function move() {
   noBtn.style.top = y + "px";
 }
 
+// 💖 진행 로직
 function nextStep() {
   step++;
   bar.style.width = (step * 33) + "%";
 
   if (step === 1) {
-    question.innerText = "실망이야";
+    question.innerText = "실망이야 😒";
   } else if (step === 2) {
     question.innerText = "메롱😈";
   } else {
     question.innerText = "검사 완료 💖";
     document.getElementById("result").innerText =
-      "무한대의 꼬빵해주께요";
+      "무한 꼬빵 확정 😏💋";
   }
 }
 
+// 📤 공유
 function shareKakao() {
   const url = window.location.href;
 
   if (navigator.share) {
     navigator.share({
       title: "불금 테스트 💖",
-      text: "이거 해봐ㅋㅋ",
+      text: "꼬빵해주때염",
       url: url
     });
   } else {
-    alert("이 링크 복사해서 보내줘 \n" + url);
+    alert("이 링크 복사해서 보내줘 😏\n" + url);
   }
 }
 </script>
