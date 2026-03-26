@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>중요한 선택</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #ffeef2;
+      margin-top: 100px;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    button {
+      font-size: 20px;
+      padding: 15px 30px;
+      margin: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .yes {
+      background-color: #ff5c8a;
+      color: white;
+    }
+    .no {
+      background-color: #ccc;
+    }
+    #result {
+      font-size: 24px;
+      margin-top: 40px;
+      color: #ff2e63;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>금요일은 꼬빵데이~ 😏</h1>
+
+  <button class="yes" onclick="showResult()">좋아 💖</button>
+  <button class="no" id="noBtn">미쳤어?</button>
+
+  <div id="result"></div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+
+    // 마우스 올리면 도망
+    noBtn.addEventListener("mouseover", moveButton);
+
+    // 클릭하려 해도 도망 (모바일)
+    noBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      moveButton();
+    });
+
+    function moveButton() {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    function showResult() {
+      document.getElementById("result").innerText =
+        "무한 꼬빵 해주께영~~ 💖";
+    }
+  </script>
+
+</body>
+</html>
