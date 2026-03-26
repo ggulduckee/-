@@ -76,6 +76,9 @@ button {
 .share {
   background: #fee500;
   margin-top: 20px;
+  display: none;
+  opacity: 0;
+  transition: 0.3s;
 }
 
 #result {
@@ -105,14 +108,17 @@ button {
 
   <div id="result"></div>
 
-  <button class="share" onclick="shareKakao()">카톡으로 공유하기 💛</button>
+  <!-- 🔥 처음엔 숨김 -->
+  <button class="share" id="shareBtn" onclick="shareKakao()">
+    카톡으로 공유하기 💛
+  </button>
 
 </div>
 
 <script>
 const bgm = document.getElementById("bgm");
 
-// 📱 모바일 포함 클릭 시 음악 재생
+// 클릭 시 음악 재생
 document.body.addEventListener("click", () => {
   bgm.play().catch(() => {});
 }, { once: true });
@@ -121,8 +127,9 @@ let step = 0;
 const noBtn = document.getElementById("noBtn");
 const bar = document.getElementById("bar");
 const question = document.getElementById("question");
+const shareBtn = document.getElementById("shareBtn");
 
-// 😈 도망 이벤트 (PC + 모바일)
+// 😈 도망 버튼 (모바일 포함)
 noBtn.addEventListener("mouseover", move);
 noBtn.addEventListener("touchstart", move);
 noBtn.addEventListener("click", (e) => {
@@ -141,7 +148,7 @@ function move() {
   noBtn.style.top = y + "px";
 }
 
-// 💖 진행 로직
+// 💖 진행
 function nextStep() {
   step++;
   bar.style.width = (step * 33) + "%";
@@ -154,6 +161,12 @@ function nextStep() {
     question.innerText = "검사 완료 💖";
     document.getElementById("result").innerText =
       "무한 꼬빵 확정 😏💋";
+
+    // 🔥 여기서 공유 버튼 등장
+    shareBtn.style.display = "block";
+    setTimeout(() => {
+      shareBtn.style.opacity = "1";
+    }, 50);
   }
 }
 
@@ -164,7 +177,7 @@ function shareKakao() {
   if (navigator.share) {
     navigator.share({
       title: "불금 테스트 💖",
-      text: "꼬빵해주때염",
+      text: "누나 꼬빵해주때용",
       url: url
     });
   } else {
