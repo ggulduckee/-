@@ -103,12 +103,15 @@ button {
 
   <h1 id="question">금요일은 꼬빵데이~ 😏</h1>
 
-  <button class="yes" onclick="nextStep()">좋아 💖</button>
-  <button class="no" id="noBtn">미쳤어?</button>
+  <!-- 🔥 좋아는 도망 -->
+  <button class="yes" id="yesBtn">좋아 💖</button>
+
+  <!-- 🔥 이거만 눌림 -->
+  <button class="no" onclick="nextStep()">미쳤어?</button>
 
   <div id="result"></div>
 
-  <!-- 🔥 처음엔 숨김 -->
+  <!-- 🔥 결과 후 등장 -->
   <button class="share" id="shareBtn" onclick="shareKakao()">
     카톡으로 공유하기 💛
   </button>
@@ -118,51 +121,51 @@ button {
 <script>
 const bgm = document.getElementById("bgm");
 
-// 클릭 시 음악 재생
+// 🎵 클릭 시 음악 재생 (모바일 대응)
 document.body.addEventListener("click", () => {
   bgm.play().catch(() => {});
 }, { once: true });
 
 let step = 0;
-const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
 const bar = document.getElementById("bar");
 const question = document.getElementById("question");
 const shareBtn = document.getElementById("shareBtn");
 
-// 😈 도망 버튼 (모바일 포함)
-noBtn.addEventListener("mouseover", move);
-noBtn.addEventListener("touchstart", move);
-noBtn.addEventListener("click", (e) => {
+// 😈 좋아 버튼 도망 (PC + 모바일)
+yesBtn.addEventListener("mouseover", move);
+yesBtn.addEventListener("touchstart", move);
+yesBtn.addEventListener("click", (e) => {
   e.preventDefault();
   move();
 });
 
 function move() {
-  noBtn.style.position = "absolute";
-  noBtn.style.transition = "0.2s";
+  yesBtn.style.position = "absolute";
+  yesBtn.style.transition = "0.2s";
 
   const x = Math.random() * (window.innerWidth - 120);
   const y = Math.random() * (window.innerHeight - 60);
 
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+  yesBtn.style.left = x + "px";
+  yesBtn.style.top = y + "px";
 }
 
-// 💖 진행
+// 💖 진행 로직
 function nextStep() {
   step++;
   bar.style.width = (step * 33) + "%";
 
   if (step === 1) {
-    question.innerText = "실망이야 😒";
+    question.innerText = "왜 피해? 😏";
   } else if (step === 2) {
-    question.innerText = "메롱😈";
+    question.innerText = "결국 인정이지? 😈";
   } else {
     question.innerText = "검사 완료 💖";
     document.getElementById("result").innerText =
-      "무한 꼬빵 확정 😏💋";
+      "결국 꼬빵 확정 😏💋";
 
-    // 🔥 여기서 공유 버튼 등장
+    // 공유 버튼 등장
     shareBtn.style.display = "block";
     setTimeout(() => {
       shareBtn.style.opacity = "1";
@@ -177,7 +180,7 @@ function shareKakao() {
   if (navigator.share) {
     navigator.share({
       title: "불금 테스트 💖",
-      text: "누나 꼬빵해주때용",
+      text: "누나 꼬빵해주때용 ",
       url: url
     });
   } else {
