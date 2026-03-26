@@ -1,75 +1,164 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>중요한 선택</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #ffeef2;
-      margin-top: 100px;
-    }
-    h1 {
-      font-size: 28px;
-    }
-    button {
-      font-size: 20px;
-      padding: 15px 30px;
-      margin: 20px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .yes {
-      background-color: #ff5c8a;
-      color: white;
-    }
-    .no {
-      background-color: #ccc;
-    }
-    #result {
-      font-size: 24px;
-      margin-top: 40px;
-      color: #ff2e63;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 카톡 미리보기 -->
+<meta property="og:title" content="불금 테스트 💖">
+<meta property="og:description" content="빨리해봐 강추">
+<meta property="og:image" content="https://ggulduckee.github.io/kkobbang-day/thumb.jpg">
+<meta property="og:url" content="https://ggulduckee.github.io/kkobbang-day">
+<meta property="og:type" content="website">
+
+<title>불금 테스트 💖</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #ffd6e0, #ffeef2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  width: 90%;
+  max-width: 400px;
+  background: white;
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.progress {
+  height: 8px;
+  background: #eee;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #ff5c8a;
+  transition: 0.3s;
+}
+h1 {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+.yes {
+  background: #ff5c8a;
+  color: white;
+}
+.no {
+  background: #ddd;
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+.share {
+  background: #fee500;
+  margin-top: 20px;
+}
+#result {
+  font-size: 18px;
+  margin-top: 20px;
+}
+</style>
 </head>
+
 <body>
 
-  <h1>금요일은 꼬빵데이~ 😏</h1>
+<!-- 🎵 배경음악 -->
+<audio id="bgm" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
-  <button class="yes" onclick="showResult()">좋아 💖</button>
-  <button class="no" id="noBtn">미쳤어?</button>
+<div class="container">
 
-  <div id="result"></div>
+<div class="progress">
+  <div class="progress-bar" id="bar"></div>
+</div>
 
-  <script>
-    const noBtn = document.getElementById("noBtn");
+<h1 id="question">금요일은 꼬빵데이~ 😏</h1>
 
-    // 마우스 올리면 도망
-    noBtn.addEventListener("mouseover", moveButton);
+<button class="yes" onclick="nextStep()">좋아 💖</button>
+<button class="no" id="noBtn">미쳤어?</button>
 
-    // 클릭하려 해도 도망 (모바일)
-    noBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      moveButton();
+<div id="result"></div>
+
+<button class="share" onclick="shareKakao()">카톡으로 공유하기 💛</button>
+
+</div>
+
+<script>
+const bgm = document.getElementById("bgm");
+
+// 클릭 시 음악 재생
+document.body.addEventListener("click", () => {
+  bgm.play();
+}, { once: true });
+
+let step = 0;
+const noBtn = document.getElementById("noBtn");
+const bar = document.getElementById("bar");
+
+noBtn.addEventListener("mouseover", move);
+noBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  move();
+});
+
+function move() {
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+function nextStep() {
+  step++;
+  bar.style.width = (step * 33) + "%";
+
+  if (step === 1) {
+    question.innerText = "실망이야";
+  } else if (step === 2) {
+    question.innerText = "메롱😈";
+  } else {
+    question.innerText = "검사 완료 💖";
+    document.getElementById("result").innerText =
+      "무한대의 꼬빵해주께요";
+  }
+}
+
+function shareKakao() {
+  const url = window.location.href;
+
+  if (navigator.share) {
+    navigator.share({
+      title: "불금 테스트 💖",
+      text: "이거 해봐ㅋㅋ",
+      url: url
     });
-
-    function moveButton() {
-      const x = Math.random() * (window.innerWidth - 100);
-      const y = Math.random() * (window.innerHeight - 50);
-
-      noBtn.style.position = "absolute";
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
-
-    function showResult() {
-      document.getElementById("result").innerText =
-        "무한 꼬빵 해주께영~~ 💖";
-    }
-  </script>
+  } else {
+    alert("이 링크 복사해서 보내줘 \n" + url);
+  }
+}
+</script>
 
 </body>
 </html>
